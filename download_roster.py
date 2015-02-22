@@ -88,15 +88,19 @@ roster = session.post(roster_url, data=roster_data, allow_redirects=False).conte
 
 # FIXME: hackery instead of proper parsing
 students = []
-seen_tbody = False
+in_tbody = False
 column = 0
 student = {}
 for line in roster.split('\r\n'):
     if line.startswith('<tbody>'):
-        seen_tbody = True
+        in_tbody = True
         continue
 
-    if not seen_tbody:
+    if line.startswith('</tbody>'):
+        in_tbody = False
+        continue
+
+    if not in_tbody:
         continue
 
     if line.startswith('<tr>'):
