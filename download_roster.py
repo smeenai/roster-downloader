@@ -40,7 +40,8 @@ parser.add_argument('-c', '--columns',
         default='Net ID,Last Name,First Name')
 parser.add_argument('-d', '--header', action='store_true', help='Include CSV header row')
 parser.add_argument('-s', '--sort',
-        help='The column to sort on.\nDefaults to first specified column')
+        help='A comma-separated list of columns to sort on.\n' \
+             'Defaults to the first specified column')
 args = parser.parse_args()
 
 columns = args.columns.split(',')
@@ -50,9 +51,11 @@ if invalid_columns:
     sys.stderr.write(error)
     sys.exit(-1)
 
-sort_column = args.sort or columns[0]
-if not sort_column in columns:
-    sys.stderr.write('Sort column {} not in specified columns\n'.format(sort_column))
+sort_columns = (args.sort and args.sort.split(',')) or [columns[0]]
+invalid_sort_columns = set(sort_columns) - set(columns)
+if invalid_sort_columns:
+    error = 'Sort columns {} not in specified columns\n'.format(','.join(invalid_sort_columns))
+    sys.stderr.write(error)
     sys.exit(-1)
 
 password = getpass.getpass('Enter your AD password: ')
@@ -117,7 +120,7 @@ for line in roster.split('\r\n'):
 
     column += 1
 
-students.sort(key=lambda student: student[sort_column])
+students.sort(key=lambda student: [student[column] for column in sort_columns])
 roster_path = args.output
 with open(roster_path, 'w') as roster_file:
     writer = csv.writer(roster_file)
