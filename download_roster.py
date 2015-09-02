@@ -51,14 +51,14 @@ invalid_columns = set(columns) - set(all_columns)
 if invalid_columns:
     error = 'Invalid columns {} specified\n'.format(','.join(invalid_columns))
     sys.stderr.write(error)
-    sys.exit(-1)
+    sys.exit(2)
 
 sort_columns = (args.sort and args.sort.split(',')) or [columns[0]]
 invalid_sort_columns = set(sort_columns) - set(columns)
 if invalid_sort_columns:
     error = 'Sort columns {} not in specified columns\n'.format(','.join(invalid_sort_columns))
     sys.stderr.write(error)
-    sys.exit(-1)
+    sys.exit(2)
 
 password = getpass.getpass('Enter your AD password: ')
 session = requests.session()
