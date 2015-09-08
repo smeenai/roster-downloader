@@ -82,14 +82,14 @@ sections = args.sections.split(',')
 crns = []
 for section in sections:
     section_re = r'<input type="checkbox" name="CRN_TERM" value="(\d+\|\d+\|{0})"'.format(section)
-    course_checkbox = re.search(section_re, roster_page.content)
+    course_checkbox = re.search(section_re, roster_page.text)
     if course_checkbox is None:
         sys.stderr.write('Could not find section {}\n'.format(section))
         sys.exit(1)
     crns.append(course_checkbox.group(1))
 
 roster_data = { 'CRN_TERM': crns, 'cross_list': '1', 'step': 'view', 'style': 'Export to Excel' }
-roster = session.post(roster_url, data=roster_data, allow_redirects=False).content
+roster = session.post(roster_url, data=roster_data, allow_redirects=False).text
 
 # FIXME: hackery instead of proper parsing
 students = []
