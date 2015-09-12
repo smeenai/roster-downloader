@@ -29,8 +29,22 @@ all_columns = [
     'FERPA',
 ]
 
+epilog = '''Examples:
+
+./download_roster.py your-NetID 233 AYA AYA.csv
+    Download the roster for 233 section AYA to file AYA.csv. The columns
+    included by default are suitable for the section.html script
+
+./download_roster.py your-NetID 233 AYC,AYD roster.csv -c "Net ID"
+    Download the roster for 233 sections AYC and AYD to file roster.csv
+    and only include the Net ID column
+
+./download_roster.py your-NetID 233 AYB AYB.csv -s "Last Name,First Name"
+    Download the roster for 233 section AYB to AYB.csv, sorting by the
+    Last Name and then the First Name columns'''
+
 parser = argparse.ArgumentParser(description='CS roster download script',
-        formatter_class=argparse.RawTextHelpFormatter)
+        epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('netid', help='Your NetID')
 parser.add_argument('course', help='The course number (e.g. 233)')
 parser.add_argument('sections', help='A comma-separated list of sections to fetch\n(e.g. AYD,AYH)')
