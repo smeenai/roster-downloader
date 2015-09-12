@@ -32,7 +32,7 @@ If you're familiar with virtualenv, you can use it to set up an isolated
 environment for the script:
 
 ```sh
-virtualenv venv
+virtualenv -p python3 venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```
