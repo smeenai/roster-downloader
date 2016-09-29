@@ -14,6 +14,7 @@ all_columns = [
     'Gender',
     'Last Name',
     'First Name',
+    'Email Address',
     'Credit',
     'Level',
     'Year',
